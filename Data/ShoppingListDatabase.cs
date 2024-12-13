@@ -9,9 +9,11 @@ using IancauMariaLab7.Models;
 using System.Collections;
 
 
+
+
 namespace IancauMariaLab7.Data
 {
-    public class ShoppingListDatabase 
+    public class ShoppingListDatabase
     {
         readonly SQLiteAsyncConnection _database;
         public ShoppingListDatabase(string dbPath)
@@ -20,6 +22,7 @@ namespace IancauMariaLab7.Data
             _database.CreateTableAsync<ShopList>().Wait();
             _database.CreateTableAsync<Product>().Wait();
             _database.CreateTableAsync<ListProduct>().Wait();
+            _database.CreateTableAsync<Shop>().Wait();
         }
         public Task<int> SaveProductAsync(Product product)
         {
@@ -44,11 +47,7 @@ namespace IancauMariaLab7.Data
             throw new NotImplementedException();
         }
 
-        internal async Task DeleteShopListAsync(ShopList slist)
-        {
-            throw new NotImplementedException();
-        }
-
+       
         internal async Task SaveListProductAsync(ListProduct lp)
         {
             throw new NotImplementedException();
@@ -63,6 +62,29 @@ namespace IancauMariaLab7.Data
         {
             throw new NotImplementedException();
         }
+
+
+
+        public Task<List<Shop>> GetShopsAsync() => _database.Table<Shop>().ToListAsync();
+        public Task<int> SaveShopAsync(Shop shop)
+        {
+            if (shop.ID != 0)
+            {
+                return _database.UpdateAsync(shop);
+            }
+            else
+            {
+                return _database.InsertAsync(shop);
+            }
+        }
+        public async Task DeleteShopListAsync(ShopList shopList)
+        {
+            if (shopList != null)
+            {
+                await _database.DeleteAsync(shopList); // Metoda de ștergere din baza de date
+            }
+        }
+
     }
 }
 

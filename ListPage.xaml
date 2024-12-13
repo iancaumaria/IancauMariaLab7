@@ -15,7 +15,7 @@
             </Entry.Behaviors>
         </Entry>
 
-
+        <Picker x:Name="ShopPicker" Title="Enter Shop Name"/>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
